@@ -1,306 +1,420 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Campaign Return Users Dashboard</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #f5f6fa;
-      color: #2d3748;
-      padding: 32px 24px;
-    }
-    .page-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 28px;
-    }
-    .page-title {
-      font-size: 22px;
-      font-weight: 700;
-      color: #1a202c;
-    }
-    .page-subtitle {
-      font-size: 13px;
-      color: #718096;
-      margin-top: 4px;
-    }
-    .last-updated {
-      font-size: 12px;
-      color: #a0aec0;
-      text-align: right;
-    }
-
-    /* Summary banner */
-    .summary-banner {
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 20px 24px;
-      margin-bottom: 24px;
-      display: flex;
-      gap: 40px;
-      flex-wrap: wrap;
-    }
-    .summary-stat { flex: 1; min-width: 130px; }
-    .summary-stat .label {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: #718096;
-      margin-bottom: 4px;
-    }
-    .summary-stat .value {
-      font-size: 26px;
-      font-weight: 700;
-      color: #1a202c;
-    }
-    .summary-stat .sub {
-      font-size: 12px;
-      color: #a0aec0;
-      margin-top: 2px;
-    }
-
-    /* Campaign cards */
-    .campaigns-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-      gap: 20px;
-    }
-    .campaign-card {
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      overflow: hidden;
-    }
-    .campaign-card-header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 16px 20px;
-      color: #fff;
-    }
-    .campaign-card-header.campaign-2 {
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    }
-    .campaign-label {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      opacity: 0.8;
-      margin-bottom: 4px;
-    }
-    .campaign-id {
-      font-size: 13px;
-      font-weight: 600;
-      font-family: 'SF Mono', 'Courier New', monospace;
-      word-break: break-all;
-    }
-    .campaign-dates {
-      font-size: 11px;
-      opacity: 0.8;
-      margin-top: 6px;
-    }
-
-    .campaign-card-body {
-      padding: 20px;
-    }
-    .metrics-row {
-      display: flex;
-      gap: 20px;
-      margin-bottom: 20px;
-    }
-    .metric-box {
-      flex: 1;
-      background: #f7fafc;
-      border-radius: 8px;
-      padding: 12px 14px;
-    }
-    .metric-box .mlabel {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: #718096;
-      margin-bottom: 4px;
-    }
-    .metric-box .mvalue {
-      font-size: 22px;
-      font-weight: 700;
-      color: #1a202c;
-    }
-    .metric-box .msub {
-      font-size: 11px;
-      color: #a0aec0;
-    }
-
-    .return-rate-section { margin-top: 4px; }
-    .return-rate-label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      color: #4a5568;
-      margin-bottom: 6px;
-    }
-    .return-rate-label strong { font-weight: 700; }
-    .bar-track {
-      background: #edf2f7;
-      border-radius: 999px;
-      height: 10px;
-      overflow: hidden;
-    }
-    .bar-fill {
-      height: 100%;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #667eea, #764ba2);
-      transition: width 0.4s ease;
-    }
-    .bar-fill.campaign-2 {
-      background: linear-gradient(90deg, #f093fb, #f5576c);
-    }
-
-    .venue-id {
-      margin-top: 14px;
-      font-size: 11px;
-      color: #a0aec0;
-    }
-    .venue-id span {
-      font-family: 'SF Mono', 'Courier New', monospace;
-      color: #718096;
-    }
-
-    footer {
-      margin-top: 32px;
-      font-size: 11px;
-      color: #a0aec0;
-      text-align: center;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campaign Return Users Dashboard</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #f5f6fa;
+    color: #1a1a2e;
+    padding: 24px;
+    min-height: 100vh;
+  }
+  .header {
+    margin-bottom: 24px;
+  }
+  .header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+  }
+  .header .meta {
+    font-size: 13px;
+    color: #6b7280;
+  }
+  .header .meta span {
+    display: inline-block;
+    margin-right: 16px;
+  }
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .summary-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    border-left: 4px solid #6c47ff;
+  }
+  .summary-card.green { border-left-color: #10b981; }
+  .summary-card.blue  { border-left-color: #3b82f6; }
+  .summary-card.amber { border-left-color: #f59e0b; }
+  .summary-card .label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b7280;
+    margin-bottom: 8px;
+  }
+  .summary-card .value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a1a2e;
+    line-height: 1;
+  }
+  .summary-card .sub {
+    font-size: 13px;
+    color: #6b7280;
+    margin-top: 4px;
+  }
+  .campaign-section {
+    margin-bottom: 24px;
+  }
+  .campaign-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  .campaign-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid #f0f0f5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .campaign-header h2 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a2e;
+  }
+  .campaign-header .campaign-id {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 12px;
+    color: #6b7280;
+    background: #f5f6fa;
+    padding: 3px 8px;
+    border-radius: 6px;
+  }
+  .campaign-header .date-range {
+    font-size: 12px;
+    color: #6b7280;
+  }
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0;
+    padding: 0;
+  }
+  .stat-cell {
+    padding: 20px 24px;
+    border-right: 1px solid #f0f0f5;
+  }
+  .stat-cell:last-child { border-right: none; }
+  .stat-cell .stat-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #9ca3af;
+    margin-bottom: 6px;
+  }
+  .stat-cell .stat-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1a2e;
+    line-height: 1;
+  }
+  .stat-cell .stat-sub {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 4px;
+  }
+  .rate-bar-section {
+    padding: 16px 24px;
+    border-top: 1px solid #f0f0f5;
+    background: #fafafa;
+  }
+  .rate-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+    margin-bottom: 8px;
+  }
+  .rate-bar-track {
+    background: #e5e7eb;
+    border-radius: 999px;
+    height: 12px;
+    overflow: hidden;
+    position: relative;
+  }
+  .rate-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.6s ease;
+    position: relative;
+  }
+  .rate-bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(90deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
+    border-radius: 999px;
+  }
+  .rate-bar-fill.c1 { background: linear-gradient(90deg, #6c47ff, #a78bfa); }
+  .rate-bar-fill.c2 { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+  .rate-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+  .rate-chip.good  { background: #d1fae5; color: #065f46; }
+  .rate-chip.mid   { background: #fef3c7; color: #92400e; }
+  .rate-chip.low   { background: #fee2e2; color: #991b1b; }
+  .venue-id {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 11px;
+    color: #9ca3af;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  th {
+    text-align: left;
+    padding: 14px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #9ca3af;
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  td {
+    padding: 14px 16px;
+    font-size: 13px;
+    border-bottom: 1px solid #f0f0f5;
+    vertical-align: middle;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fafbff; }
+  .footer {
+    margin-top: 24px;
+    font-size: 12px;
+    color: #9ca3af;
+    text-align: center;
+  }
+  .section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 12px;
+  }
+</style>
 </head>
 <body>
 
-  <div class="page-header">
-    <div>
-      <div class="page-title">Campaign Return Users</div>
-      <div class="page-subtitle">Return behaviour of users reached by Wolt campaigns &mdash; June 2026</div>
-    </div>
-    <div class="last-updated">Last updated: 2026-06-29</div>
+<div class="header">
+  <h1>Campaign Return Users Dashboard</h1>
+  <div class="meta">
+    <span>🗓 Last updated: 2026-06-30</span>
+    <span>📊 Source: Wolt Snowflake · INTERMEDIATE.F_PURCHASES</span>
+    <span>📅 Data window: June 2026</span>
   </div>
+</div>
 
-  <!-- Summary banner -->
-  <div class="summary-banner">
-    <div class="summary-stat">
-      <div class="label">Total campaigns</div>
-      <div class="value">2</div>
-      <div class="sub">active this run</div>
-    </div>
-    <div class="summary-stat">
-      <div class="label">Campaign users (combined)</div>
-      <div class="value">56</div>
-      <div class="sub">unique users across both campaigns</div>
-    </div>
-    <div class="summary-stat">
-      <div class="label">Returned users (combined)</div>
-      <div class="value">5</div>
-      <div class="sub">placed a follow-up order</div>
-    </div>
-    <div class="summary-stat">
-      <div class="label">Avg return rate</div>
-      <div class="value">8.9%</div>
-      <div class="sub">across both campaigns</div>
-    </div>
-    <div class="summary-stat">
-      <div class="label">Avg days to return</div>
-      <div class="value">2.7</div>
-      <div class="sub">days (weighted avg)</div>
-    </div>
+<!-- Combined Summary -->
+<div class="summary-grid">
+  <div class="summary-card">
+    <div class="label">Campaigns Tracked</div>
+    <div class="value">2</div>
+    <div class="sub">Active in June 2026</div>
   </div>
+  <div class="summary-card green">
+    <div class="label">Total Campaign Users</div>
+    <div class="value">56</div>
+    <div class="sub">Across both campaigns</div>
+  </div>
+  <div class="summary-card blue">
+    <div class="label">Total Returned Users</div>
+    <div class="value">5</div>
+    <div class="sub">Placed a follow-up order</div>
+  </div>
+  <div class="summary-card amber">
+    <div class="label">Combined Return Rate</div>
+    <div class="value">8.9%</div>
+    <div class="sub">5 of 56 users returned</div>
+  </div>
+</div>
 
-  <!-- Campaign cards -->
-  <div class="campaigns-grid">
-
-    <!-- Campaign 1: a28dca96 -->
-    <div class="campaign-card">
-      <div class="campaign-card-header">
-        <div class="campaign-label">Campaign ID</div>
+<!-- Campaign 1 -->
+<div class="campaign-section">
+  <div class="section-title">Campaign Details</div>
+  <div class="campaign-card" style="margin-bottom: 16px;">
+    <div class="campaign-header">
+      <div>
+        <h2>Campaign 1</h2>
         <div class="campaign-id">a28dca96-a496-48cc-b9e1-a8d7e49a9f84</div>
-        <div class="campaign-dates">Jun 8 &ndash; Jun 15, 2026</div>
       </div>
-      <div class="campaign-card-body">
-        <div class="metrics-row">
-          <div class="metric-box">
-            <div class="mlabel">Campaign users</div>
-            <div class="mvalue">28</div>
-            <div class="msub">unique users</div>
-          </div>
-          <div class="metric-box">
-            <div class="mlabel">Returned users</div>
-            <div class="mvalue">3</div>
-            <div class="msub">placed follow-up order</div>
-          </div>
-          <div class="metric-box">
-            <div class="mlabel">Avg days to return</div>
-            <div class="mvalue">4.7</div>
-            <div class="msub">days</div>
-          </div>
-        </div>
-        <div class="return-rate-section">
-          <div class="return-rate-label">
-            <span>Return rate</span>
-            <strong>10.7%</strong>
-          </div>
-          <div class="bar-track">
-            <div class="bar-fill" style="width: 10.7%"></div>
-          </div>
-        </div>
-        <div class="venue-id">Venue: <span>68cfe8cf2d8e10a31bbb2339</span></div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="date-range">📅 Jun 8 – Jun 15, 2026</span>
+        <span class="rate-chip mid">10.7% return rate</span>
       </div>
     </div>
-
-    <!-- Campaign 2: efe6a10b -->
-    <div class="campaign-card">
-      <div class="campaign-card-header campaign-2">
-        <div class="campaign-label">Campaign ID</div>
-        <div class="campaign-id">efe6a10b-b702-4f63-be36-c2d61e2f2677</div>
-        <div class="campaign-dates">Jun 15 &ndash; Jun 27, 2026</div>
+    <div class="stats-row">
+      <div class="stat-cell">
+        <div class="stat-label">Venue ID</div>
+        <div class="stat-value" style="font-size:13px;font-family:monospace;">68cfe8cf…b2339</div>
       </div>
-      <div class="campaign-card-body">
-        <div class="metrics-row">
-          <div class="metric-box">
-            <div class="mlabel">Campaign users</div>
-            <div class="mvalue">28</div>
-            <div class="msub">unique users</div>
-          </div>
-          <div class="metric-box">
-            <div class="mlabel">Returned users</div>
-            <div class="mvalue">2</div>
-            <div class="msub">placed follow-up order</div>
-          </div>
-          <div class="metric-box">
-            <div class="mlabel">Avg days to return</div>
-            <div class="mvalue">0.7</div>
-            <div class="msub">days</div>
-          </div>
-        </div>
-        <div class="return-rate-section">
-          <div class="return-rate-label">
-            <span>Return rate</span>
-            <strong>7.1%</strong>
-          </div>
-          <div class="bar-track">
-            <div class="bar-fill bar-fill campaign-2" style="width: 7.1%"></div>
-          </div>
-        </div>
-        <div class="venue-id">Venue: <span>68cfe8cf2d8e10a31bbb2339</span></div>
+      <div class="stat-cell">
+        <div class="stat-label">Campaign Users</div>
+        <div class="stat-value">28</div>
+        <div class="stat-sub">placed campaign order</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Returned Users</div>
+        <div class="stat-value">3</div>
+        <div class="stat-sub">made follow-up order</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Return Rate</div>
+        <div class="stat-value">10.7%</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Avg Days to Return</div>
+        <div class="stat-value">4.7</div>
+        <div class="stat-sub">days after campaign order</div>
       </div>
     </div>
-
+    <div class="rate-bar-section">
+      <div class="rate-bar-label">
+        <span>Return Rate</span>
+        <span>10.7% &nbsp;(3 / 28 users)</span>
+      </div>
+      <div class="rate-bar-track">
+        <div class="rate-bar-fill c1" style="width: 10.7%"></div>
+      </div>
+    </div>
   </div>
 
-  <footer>
-    Data sourced from Wolt's semantic layer (INTERMEDIATE.F_PURCHASES &middot; MERCHANT_ANALYTICS.PURCHASE_CAMPAIGNS) &mdash;
-    validate business-critical numbers before acting on them.
-  </footer>
+  <!-- Campaign 2 -->
+  <div class="campaign-card">
+    <div class="campaign-header">
+      <div>
+        <h2>Campaign 2</h2>
+        <div class="campaign-id">efe6a10b-b702-4f63-be36-c2d61e2f2677</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="date-range">📅 Jun 15 – Jun 27, 2026</span>
+        <span class="rate-chip low">7.1% return rate</span>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-cell">
+        <div class="stat-label">Venue ID</div>
+        <div class="stat-value" style="font-size:13px;font-family:monospace;">68cfe8cf…b2339</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Campaign Users</div>
+        <div class="stat-value">28</div>
+        <div class="stat-sub">placed campaign order</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Returned Users</div>
+        <div class="stat-value">2</div>
+        <div class="stat-sub">made follow-up order</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Return Rate</div>
+        <div class="stat-value">7.1%</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Avg Days to Return</div>
+        <div class="stat-value">0.7</div>
+        <div class="stat-sub">days after campaign order</div>
+      </div>
+    </div>
+    <div class="rate-bar-section">
+      <div class="rate-bar-label">
+        <span>Return Rate</span>
+        <span>7.1% &nbsp;(2 / 28 users)</span>
+      </div>
+      <div class="rate-bar-track">
+        <div class="rate-bar-fill c2" style="width: 7.1%"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Full data table -->
+<div style="margin-bottom: 12px;" class="section-title">Raw Query Results</div>
+<table>
+  <thead>
+    <tr>
+      <th>Campaign ID</th>
+      <th>Venue ID</th>
+      <th>Campaign Period</th>
+      <th>Total Users</th>
+      <th>Returned Users</th>
+      <th>Return Rate</th>
+      <th>Avg Days to Return</th>
+      <th>Return Rate Bar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="venue-id">a28dca96-a496-48cc-b9e1-a8d7e49a9f84</span></td>
+      <td><span class="venue-id">68cfe8cf2d8e10a31bbb2339</span></td>
+      <td>Jun 8 – Jun 15, 2026</td>
+      <td>28</td>
+      <td>3</td>
+      <td><strong>10.7%</strong></td>
+      <td>4.7 days</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="rate-bar-track" style="width:120px;flex-shrink:0;">
+            <div class="rate-bar-fill c1" style="width:10.7%"></div>
+          </div>
+          <span style="font-size:11px;color:#6b7280;">10.7%</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td><span class="venue-id">efe6a10b-b702-4f63-be36-c2d61e2f2677</span></td>
+      <td><span class="venue-id">68cfe8cf2d8e10a31bbb2339</span></td>
+      <td>Jun 15 – Jun 27, 2026</td>
+      <td>28</td>
+      <td>2</td>
+      <td><strong>7.1%</strong></td>
+      <td>0.7 days</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="rate-bar-track" style="width:120px;flex-shrink:0;">
+            <div class="rate-bar-fill c2" style="width:7.1%"></div>
+          </div>
+          <span style="font-size:11px;color:#6b7280;">7.1%</span>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="footer">
+  <p>Data sourced from Wolt's semantic layer · INTERMEDIATE.F_PURCHASES · Confidence: MEDIUM</p>
+  <p style="margin-top:4px;">Results are based on published YAML definitions — validate business-critical numbers before acting on them.</p>
+  <p style="margin-top:4px;">Live dashboard: <a href="https://htmlpreview.github.io/?https://github.com/katerinashteinberg-ops/wolt-ads-dashboard/blob/master/campaign-return-users.html" style="color:#6c47ff;">htmlpreview.github.io</a></p>
+</div>
 
 </body>
 </html>
